@@ -39,7 +39,9 @@ void setup() {
   // initialize the button pin as a input:
   pinMode(buttonPin, INPUT);
   // initialize the LED as an output:
-  pinMode(ledPin, OUTPUT);
+  pinMode(redLEDPin, OUTPUT);
+  pinMode(blueLEDPin, OUTPUT);
+  pinMode(greenLEDPin, OUTPUT);
   // initialize serial communication:
   Serial.begin(9600);
 
@@ -130,5 +132,4 @@ void playerWINS() {
 void playerLOSES() {
   // flash red light for x amount of seconds
   // call the restart game function
-}
 }
