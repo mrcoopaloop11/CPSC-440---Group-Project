@@ -34,6 +34,7 @@ const int greenLEDPin = 8;
 int buttonPushCounter = 0;   // counter for the number of button presses
 int buttonState = 0;         // current state of the button
 int lastButtonState = 0;     // previous state of the button
+int greentimer = 0;
 
 void setup() {
   // initialize the button pin as a input:
@@ -45,7 +46,7 @@ void setup() {
   // initialize serial communication:
   Serial.begin(9600);
 
-  //cycle through all available colors
+  // restart game
   //
 }
 
@@ -53,8 +54,9 @@ void setup() {
 void loop() {
   // read the pushbutton input pin:
   buttonState = digitalRead(buttonPin);
+  greentimer++;
 
-  // get the time in milli and use modulo of [random value ; like 12] to see if it equals 0
+  // if ((random(300) % 10) == 0)
       // get random color function
       // timer set it to zero if color is green
             // if not, keep the timer going
@@ -118,18 +120,78 @@ void changeLED(bool red, bool blue, bool green) {
 
 void randomColor() {
   // get a random value from 1 to 6
+  int var = random(1,6);
 
   // switch 1 to 6 case (red, green, blue, cyan, magenta, yellow)
+  switch (var) {
+    case 1:
+      changeLED(true, false, false);  // red
+      break;
+    case 2:
+      changeLED(false, false, true);  // green
+      greentimer = 0;
+      break;
+    case 3:
+      changeLED(false, true, false);  // blue
+      break;
+    case 4:
+      changeLED(false, true, true);     // cyan
+      break;
+    case 5:
+      changeLED(true, true, false);     // magenta
+      break;
+    case 6:
+      changeLED(true, true, false);   // yellow
+      break;
+    default:
+      changeLED(false, false, false);   // off
+      break;
+  }
   // green case, change the global variable for G_WINNING
 }
 
 
 void playerWINS() {
+  int waittime = 500;    // half of a second each color
+  
   // cycle through all the colors for x amount of seconds
+  changeLED(true, true, true);    //white
+  delay(waittime);
+  changeLED(true, false, true);   //yellow
+  delay(waittime);
+  changeLED(true, true, false);   // magenta
+  delay(waittime);
+  changeLED(false, true, true);   // cyan
+  delay(waittime);
+  changeLED(false, false, true);  // green
+  delay(waittime);
+  changeLED(false, true, false);  // blue
+  delay(waittime);
+  changeLED(true, false, false);  // red
+  delay(waittime);
+
+  //start();
 }
 
 
 void playerLOSES() {
+  int waittime = 500;    // half of a second each color
+  int amount = 3;       // amount of times blinking
+  
   // flash red light for x amount of seconds
+  for (int i = 0; i <= amount; i++) {
+    changeLED(true, false, false);  // red
+    delay(waittime);
+  }
+
   // call the restart game function
+   start();
+}
+
+
+
+void start() {
+  // reintialize the counters
+
+  // hold button for x amount of seconds to start game
 }
